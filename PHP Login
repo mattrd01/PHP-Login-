@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+</head>
+<body>
+    <?php
+    // Check if the form is submitted (for both login and create account)
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Login
+        if (isset($_POST["login"])) {
+            // Retrieve user credentials from the form
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+
+            // Validate credentials (This is just an example, you should use a database)
+            if ($username === "your_username" && $password === "your_password") {
+                // Set a cookie (You may want to use sessions for a more secure approach)
+                setcookie("user", $username, time() + 3600, "/"); // Cookie expires in 1 hour
+                header("Location: index.php"); // Redirect to the welcome page
+            } else {
+                echo "Invalid credentials.";
+            }
+        }
+
+        // Create Account
+        elseif (isset($_POST["create_account"])) {
+            // Retrieve new user credentials from the form
+            $new_username = $_POST["new_username"];
+            $new_password = $_POST["new_password"];
+
+            // Validation and account creation (This is just an example, you should use a database)
+            // You might want to add more validation and security measures here
+            if (!empty($new_username) && !empty($new_password)) {
+                // TODO: Add code to securely store new user credentials (Consider using a database)
+                echo "Account created successfully! Now you can log in.";
+            } else {
+                echo "Please provide both a new username and password.";
+            }
+        }
+    } else {
+        // If not submitted, show the login and create account forms
+        echo '
+        <h2>Login</h2>
+        <form action="" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <input type="submit" name="login" value="Login">
+        </form>';
+
+        // Create Account Section
+        echo '
+        <h2>Create Account</h2>
+        <form action="" method="post">
+            <label for="new_username">New Username:</label>
+            <input type="text" id="new_username" name="new_username" required><br>
+
+            <label for="new_password">New Password:</label>
+            <input type="password" id="new_password" name="new_password" required><br>
+
+            <input type="submit" name="create_account" value="Create Account">
+        </form>';
+    }
+    ?>
+</body>
+</html>
